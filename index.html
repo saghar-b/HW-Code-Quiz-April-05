@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./Assets/style.css">
+</head>
+
+<body>
+    <header>
+
+        <h5 id="score">score</h6>
+            <h5 id="time">time : 0</h6>
+    </header>
+    <main>
+
+
+
+        <div id="start">
+            <h2>Coding Quiz Challange</h3>
+                <h4>this quiz is about Geography. Try to answer the question in a minum time. Remember the incorrect
+                    answer
+                    will
+                    penalize your time by 10 seconds.</h4>
+                <button class="start-btn">Start Quiz</button>
+        </div>
+
+        <div class="questionbtn">
+            <section>
+                <h4></h4>
+
+            </section>
+            <button class="optBtn" id="q1" data-name=""></button>
+            <button class="optBtn" id="q2" data-name=""></button>
+            <button class="optBtn" id="q3" data-name=""></button>
+            <button class="optBtn" id="q4" data-name=""></button>
+
+            <p></p>
+        </div>
+
+        <div class="allDone">
+            <h2>All Done!</h2>
+            <h3></h3>
+
+
+            <lable>Enter initial:</lable>
+            <input type="text" name="initial" id="initial">
+            <button id="initialBtn">Submit</button>
+
+        </div>
+
+        <div class="result">
+            <h2>Heighscores</h2>
+            <ul id="scoresLable"></ul>
+            <section class="decision">
+                <button id="playAgainBtn" type="submit">Play Again</button>
+                <button id="cancel" type="submit">Clear Highscore</button>
+
+            </section>
+        </div>
+
+    </main>
+    <script src="./Assets/script.js"></script>
+</body>
+
+</html>
