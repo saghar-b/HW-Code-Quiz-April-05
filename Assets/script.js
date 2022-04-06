@@ -15,21 +15,32 @@ let divQuestions = document.querySelector(".questionbtn");
 let count = 0;
 let timerInterval;
 let correctAns = 0
-let qTime = 30; //set the timer to 30second
+let qTime = 60; //set the timer to 30second
 var highScoreArray = [];
 let HeighesScore = 0;
+let flag=false;
 //get the HighestScore from the local storage
+if(JSON.parse(localStorage.getItem("HighestScore"))==null){
+    localStorage.setItem("HighestScore", JSON.stringify(highScoreArray));
+}
+// localStorage.setItem("HighestScore", JSON.stringify(highScoreArray));
 highScoreArray = JSON.parse(localStorage.getItem("HighestScore"));
-
+heighestScore();
 //Start quiz button click
 qizeSubbBut.addEventListener("click", function () {
+   
+    count=0;
+    correctAns=0
+    qTime = 60;
+    setTime();
+    flag=false;
+    qArray=[];
     generateQuestions();
     showQuestions(count);
     divQuestions.setAttribute("style", "visibility: visible");
     divStart.setAttribute("style", "visibility: hidden");
-    heighestScore();
-    qTime = 30;
-    setTime();
+    
+    
 
 });
 
@@ -41,11 +52,11 @@ divQuestions.addEventListener("click", function (event) {
 
         if (dataName == qArray[count].answer) {
             correctAns++;
-            qTime += 5;
+            // qTime += 10;
             divQuestions.querySelector("p").textContent = "Correct Answer";
         }
         else {
-            qTime -= 5;
+            qTime -= 10;
             divQuestions.querySelector("p").textContent = "Wrong Answer";
 
         }
@@ -55,6 +66,7 @@ divQuestions.addEventListener("click", function (event) {
         }
         else {
             hideDivQuestionbtn();
+            flag=true;
         }
     }
 });
@@ -72,21 +84,26 @@ initialBtn.addEventListener("click", function () {
     if (!initial.value) {
         initial.value = "NA"
     }
-    showResult(initial.value)
+    showResult();
+    heighestScore();
 });
 
 // Clear Highscore button on click
 cancleBtn.addEventListener("click", function () {
 
-    divResult.querySelector("#scoresLable").remove();
+    divResult.querySelector("#scoresLable").textContent="";
 
 });
 
 // play again button click
 playAgainBtn.addEventListener("click", function () {
+   
+    divAllDone.setAttribute("style", "visibility:hiddlen");
     divResult.setAttribute("style", "visibility:hiddlen");
     divStart.setAttribute("style", "visibility: visible");
-
+    divResult.querySelector("#scoresLable").textContent="";
+    document.querySelector("#time").textContent = "Time: " + 0;
+    initial.value = ""
 });
 
 // make the question button hidden
@@ -106,13 +123,13 @@ function showAllDone() {
 }
 
 //Show result section
-function showResult(init) {
+function showResult() {
     for (let i = 0; i < highScoreArray.length; i++) {
-        if (highScoreArray[i].initial == init) {
+    
             let liTag = document.createElement("li");
-            liTag.textContent = highScoreArray[i].initial + ":    " + highScoreArray[i].score;
+            liTag.textContent =i+1 +"-       "+ highScoreArray[i].initial + ":    " + highScoreArray[i].score;
             divResult.querySelector("#scoresLable").appendChild(liTag)
-        }
+        
     }
 }
 
@@ -164,6 +181,7 @@ function questions(country, opt1, opt2, opt3, opt4, answer) {
 
 //generate the questions and add them to qArray
 function generateQuestions() {
+    
     let q1 = new questions("Mexico", "Santiago", "Tijuana", "León", "Mexico City", "Mexico City")
     let q2 = new questions("Iran", "Esfahan", "Tehran", "Yazd", "IStambol", "Tehran")
     let q3 = new questions("South Korea", "Seoul", "Changwon", "Pyongyang", "Suwon", "Seoul")
@@ -191,10 +209,18 @@ function setTime() {
         document.querySelector("#time").textContent = "Time: " + qTime;
         if (qTime <= 0) {
             clearInterval(timerInterval);
-            document.querySelector("#time").textContent = "Time: 0";
+            document.querySelector("#time").textContent = 0;
+            hideDivQuestionbtn();
+
+        }
+        else if (flag) {
+            clearInterval(timerInterval);
+            console.log("time is "+qTime)
+            document.querySelector("#time").textContent = "Time: " + qTime;
             hideDivQuestionbtn();
 
         }
     }, 1000);
 }
+
 
